@@ -56,7 +56,7 @@ public class Node {
     }
 
     public boolean containsPoint(Point point) {
-        return point.distance(new Point(x + radius, y + radius)) <= radius;
+        return point.distance(new Point(x, y)) <= radius;
     }
 
     public void setPosition(int x, int y) {
@@ -76,17 +76,17 @@ public class Node {
     public void drawNode(Graphics2D g) {
         //draw center first
         g.setColor(color);
-        g.fillOval(x, y, radius * 2, radius * 2);
+        g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
         //then border
         g.setColor(Color.black);
-        g.drawOval(x, y, radius * 2, radius * 2);
+        g.drawOval(x - radius, y - radius, radius * 2, radius * 2);
 
         g.setFont(font);
         //align text for double digit keys
 
         if (key < 10)
-            g.drawString(((Integer) key).toString(), x + radius - 2, y + radius + 5);
+            g.drawString(((Integer) key).toString(), x - 2, y + 5);
         else
-            g.drawString(((Integer) key).toString(), x + radius - 7, y + radius + 5);
+            g.drawString(((Integer) key).toString(), x - 7, y + 5);
     }
 }
