@@ -106,35 +106,43 @@ public class Graph {
 
     public void removeEdge(Edge edge) {
 
-        edgeList.remove(edge);
+        edgeList.removeIf(curEdge -> (curEdge.getStart() == edge.getStart() && curEdge.getEnd() == edge.getEnd()));
         adjancencyList.get(edge.getStart().getKey()).remove(edge.getEnd());
 
 
         if (!directed) {
             Edge reverse = new Edge(edge.getEnd(), edge.getStart());
 
-            edgeList.remove(edge);
-            adjancencyList.get(edge.getStart().getKey()).remove(edge.getEnd());
+            edgeList.removeIf(curEdge -> (curEdge.getStart() == reverse.getStart() && curEdge.getEnd() == reverse.getEnd()));
+            adjancencyList.get(reverse.getStart().getKey()).remove(reverse.getEnd());
         }
+
     }
 
     public void removeEdge(Node start, Node end) {
+
         removeEdge(new Edge(start, end));
+
     }
 
     public void printGraph() {
         for (Node node : nodes)
-            System.out.println(node.getKey() + " ");
+            System.out.print(node.getKey() + " ");
 
         System.out.println();
         System.out.println();
 
         for (int i = 0; i < adjancencyList.size(); ++i) {
-            System.out.println(i + ": ");
+            System.out.print(i + ": ");
             for (Node node : adjancencyList.get(i))
-                System.out.println(node.getKey() + " ");
+                System.out.print(node.getKey() + " ");
             System.out.println();
         }
+
+        System.out.println();
+
+        for (Edge edge : edgeList)
+            System.out.println(edge.getStart().getKey() + " " + edge.getEnd().getKey());
 
         System.out.println();
         System.out.println();
@@ -158,5 +166,9 @@ public class Graph {
                 node.drawNode(g2d);
         }
 
+    }
+
+    public void setDirected(boolean directed) {
+        this.directed = directed;
     }
 }
