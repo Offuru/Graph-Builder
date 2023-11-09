@@ -4,9 +4,9 @@ import java.awt.*;
 
 public class Node {
 
-    int key;
-    int x;
-    int y;
+    private int key;
+    private int x;
+    private int y;
     Color color;
 
     public static Color unselectedColor = new Color(231, 216, 216);
@@ -43,5 +43,47 @@ public class Node {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public void select(){
+        color = selectedColor;
+    }
+
+    public void unselect(){
+        color = unselectedColor;
+    }
+
+    public boolean containsPoint(Point point) {
+        return point.distance(new Point(x + radius, y + radius)) <= radius;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+
+        if (this.x < 10)
+            this.x = 10;
+        if (this.x > 750)
+            this.x = 750;
+        if (this.y < 10)
+            this.y = 10;
+        if (this.y > 720)
+            this.y = 720;
+    }
+
+    public void drawNode(Graphics g) {
+        //draw center first
+        g.setColor(color);
+        g.fillOval(x, y, radius * 2, radius * 2);
+        //then border
+        g.setColor(Color.black);
+        g.drawOval(x, y, radius * 2, radius * 2);
+
+        //align text for double digit keys
+
+        if (key < 10)
+            g.drawString(((Integer) key).toString(), x + radius, y + radius);
+        else
+            g.drawString(((Integer) key).toString(), x + radius - 5, y + radius);
     }
 }
