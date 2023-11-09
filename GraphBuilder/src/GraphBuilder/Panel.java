@@ -27,6 +27,7 @@ public class Panel extends JPanel {
         setBackground(backgroundColor);
         graph = new Graph();
         addMouseListener(mouseListener = new MouseListener(this));
+        addMouseMotionListener(mouseListener);
     }
 
     @Override
