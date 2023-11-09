@@ -74,20 +74,20 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
             boolean canPlace = true;
 
             for (Node node : panel.getGraph().getNodes())
-                if (e.getPoint().distance(new Point(node.getX() + Node.radius, node.getY() + Node.radius)) <= Node.minNodeDist) {
+                if (e.getPoint().distance(new Point(node.getX(), node.getY())) <= Node.minNodeDist) {
                     canPlace = false;
                     break;
                 }
 
             if (canPlace)
-                panel.getGraph().addNode(e.getX() - Node.radius,e.getY() - Node.radius);
+                panel.getGraph().addNode(e.getX(), e.getY());
         }
 
         isDragging = false;
 
         panel.repaint();
-
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -95,6 +95,47 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+
+        if (start != null && !isDragging) {
+
+            if (panel.getGraph().getNode(start.getKey()).containsPoint(e.getPoint()))
+                isDragging = true;
+
+        } else if (isDragging) {
+
+            for (Node node : panel.getGraph().getNodes())
+                if (node.getKey() != panel.getGraph().getNode(draggedNodeIndex).getKey()
+                        && e.getPoint().distance(new Point(node.getX(), node.getY())) < Node.minNodeDist) {
+
+                    //needs fixing for bundled up nodes
+
+                    double dx = e.getX() - node.getX();
+                    double dy = e.getY() - node.getY();
+
+                    if (dx == 0)
+                        dx = 0.1;
+                    if (dy == 0)
+                        dy = 0.1;
+
+                    double len = Math.sqrt(dx * dx + dy * dy);
+
+                    int newX = (int) Math.round(node.getX() + dx / len * (Node.radius + Node.minNodeDist - (double) Node.minNodeDist / 2));
+                    int newY = (int) Math.round(node.getY() + dy / len * (Node.radius + Node.minNodeDist - (double) Node.minNodeDist / 2));
+
+                    panel.getGraph().getNode(draggedNodeIndex).setPosition(newX, newY);
+
+                    panel.repaint();
+                    panel.setFocusable(true);
+                    panel.requestFocusInWindow();
+
+                    return;
+                }
+
+            panel.getGraph().getNode(draggedNodeIndex).setPosition(e.getX(), e.getY());
+
+        }
+
+        panel.repaint();
 
     }
 
