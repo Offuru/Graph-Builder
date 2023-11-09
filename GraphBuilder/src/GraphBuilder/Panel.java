@@ -22,20 +22,27 @@ public class Panel extends JPanel {
 
     public static Color backgroundColor = new Color(140, 134, 180);
 
-    public Panel(){
+    public Panel() {
 
         setBackground(backgroundColor);
         graph = new Graph();
-        mouseListener = new MouseListener(this);
-
+        addMouseListener(mouseListener = new MouseListener(this));
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        Graphics2D g2d = (Graphics2D) g;
+        if (graph != null)
+            graph.draw(g2d);
+
         setFocusable(true);
         requestFocusInWindow();
+    }
+
+    public Graph getGraph() {
+        return graph;
     }
 
 }
