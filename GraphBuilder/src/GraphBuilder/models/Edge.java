@@ -48,7 +48,7 @@ public class Edge {
         AffineTransform initAt = g2d.getTransform();
 
         //translate transform to end node coords + center offset and rotate according to edge slope angle
-        AffineTransform at = AffineTransform.getTranslateInstance(end.getX() + Node.radius, end.getY() + Node.radius);
+        AffineTransform at = AffineTransform.getTranslateInstance(end.getX(), end.getY());
         at.concatenate(AffineTransform.getRotateInstance(2 * Math.PI - angle));
         g2d.setTransform(at);
 
@@ -65,7 +65,7 @@ public class Edge {
 
         g2d.setColor(color);
 
-        g2d.drawLine(start.getX() + Node.radius, start.getY() + Node.radius, end.getX() + Node.radius, end.getY() + Node.radius);
+        g2d.drawLine(start.getX(), start.getY(), end.getX(), end.getY());
 
         if (directed)
             drawArrow(g2d);
