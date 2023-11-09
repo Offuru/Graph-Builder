@@ -11,6 +11,7 @@ public class Node {
 
     public static Color unselectedColor = new Color(231, 216, 216);
     public static Color selectedColor = new Color(158, 246, 78);
+    public static BasicStroke borderStroke = new BasicStroke(3);
     public static int radius = 15;
     public static int minNodeDist = 2 * radius + 5;
 
@@ -71,7 +72,7 @@ public class Node {
             this.y = 720;
     }
 
-    public void drawNode(Graphics g) {
+    public void drawNode(Graphics2D g) {
         //draw center first
         g.setColor(color);
         g.fillOval(x, y, radius * 2, radius * 2);
@@ -82,8 +83,8 @@ public class Node {
         //align text for double digit keys
 
         if (key < 10)
-            g.drawString(((Integer) key).toString(), x + radius, y + radius);
+            g.drawString(((Integer) key).toString(), x + radius - 2, y + radius + 3);
         else
-            g.drawString(((Integer) key).toString(), x + radius - 5, y + radius);
+            g.drawString(((Integer) key).toString(), x + radius - 5, y + radius + 3);
     }
 }
