@@ -93,15 +93,23 @@ public class Graph {
 
     public void removeNode(Node node) {
 
-        nodes.remove(node);
-
         adjancencyList.remove(node.getKey());
+        for (List<Node> neighbours : adjancencyList) {
+            neighbours.removeIf(curNode -> (curNode.getKey() == node.getKey()));
+        }
+
         for (List<Node> neighbours : adjancencyList)
             for (Node curNode : neighbours)
                 if (curNode.getKey() > node.getKey())
                     curNode.setKey(curNode.getKey() - 1);
 
         edgeList.removeIf(edge -> (edge.getStart() == node || edge.getEnd() == node));
+
+        nodes.remove(node);
+        for (int i = node.getKey(); i < nodes.size(); ++i)
+            nodes.get(i).setKey(nodes.get(i).getKey() - 1);
+
+        printGraph();
     }
 
     public void removeEdge(Edge edge) {
