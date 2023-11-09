@@ -28,6 +28,7 @@ public class Panel extends JPanel {
         graph = new Graph();
         addMouseListener(mouseListener = new MouseListener(this));
         addMouseMotionListener(mouseListener);
+        addKeyListener(keyboardListener = new KeyboardListener(this));
     }
 
     @Override
