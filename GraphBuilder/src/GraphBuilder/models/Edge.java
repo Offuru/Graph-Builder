@@ -13,6 +13,7 @@ public class Edge {
 
     public static Color unselectedColor = new Color(41, 144, 246);
     public static Color selectedColor = new Color(213, 118, 50);
+    public static BasicStroke lineStroke = new BasicStroke(5);
 
     public Edge(Node start, Node end) {
         this.start = start;
@@ -60,12 +61,13 @@ public class Edge {
 
     }
 
-    public void drawEdge(Graphics g, boolean directed) {
-        //draw between the centers of the nodes
-        g.setColor(color);
-        g.drawLine(start.getX() + Node.radius, start.getY() + Node.radius, end.getX() + Node.radius, end.getY() + Node.radius);
+    public void drawEdge(Graphics2D g2d, boolean directed) {
+
+        g2d.setColor(color);
+
+        g2d.drawLine(start.getX() + Node.radius, start.getY() + Node.radius, end.getX() + Node.radius, end.getY() + Node.radius);
 
         if (directed)
-            drawArrow(g);
+            drawArrow(g2d);
     }
 }
