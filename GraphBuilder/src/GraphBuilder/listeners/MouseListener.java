@@ -10,7 +10,7 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     Panel panel;
     boolean isDragging;
-    Node start;
+    public Node start;
     Node end;
     int draggedNodeIndex;
 
@@ -24,8 +24,16 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     }
 
+    public Node getStart() {
+        return start;
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
+
+        if(panel.disableInput)
+            return;
+
 
         if (start == null) {
 
@@ -69,6 +77,10 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
+        if(panel.disableInput)
+            return;
+
+
         if (start == null) {
 
             boolean canPlace = true;
@@ -95,6 +107,10 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+
+        if(panel.disableInput)
+            return;
+
 
         if (start != null && !isDragging) {
 

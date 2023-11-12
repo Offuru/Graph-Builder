@@ -89,4 +89,8 @@ public class Node {
         else
             g.drawString(((Integer) key).toString(), x - 7, y + 5);
     }
+
+    boolean isSelected(){
+        return color == selectedColor;
+    }
 }

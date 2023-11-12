@@ -14,7 +14,9 @@ import GraphBuilder.models.Edge;
 
 public class Panel extends JPanel {
 
-    private Graph graph;
+    private volatile Graph graph;
+    public volatile Graph lastGraph;
+    public volatile boolean disableInput;
 
     public MouseListener mouseListener;
     public KeyboardListener keyboardListener;
@@ -25,6 +27,7 @@ public class Panel extends JPanel {
     public Panel() {
 
         setBackground(backgroundColor);
+        disableInput = false;
         graph = new Graph();
         addMouseListener(mouseListener = new MouseListener(this));
         addMouseMotionListener(mouseListener);
@@ -45,6 +48,11 @@ public class Panel extends JPanel {
 
     public Graph getGraph() {
         return graph;
+    }
+
+    public void resetGraph() {
+        graph = new Graph(lastGraph);
+        repaint();
     }
 
 }

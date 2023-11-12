@@ -1,6 +1,8 @@
 package GraphBuilder.listeners;
 
 import GraphBuilder.Panel;
+import GraphBuilder.algorithms.*;
+import GraphBuilder.models.Graph;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,16 +21,12 @@ public class KeyboardListener implements KeyListener {
 
     public void keyPressed(KeyEvent e) {
 
+        if (panel.disableInput)
+            return;
+
         //press space for toggling directed graph on/off
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             panel.getGraph().setDirected(!panel.getGraph().isDirected());
-        }
-
-        //if graph is undirected make sure all edges have an opposite
-        if (!panel.getGraph().isDirected()) {
-
-            //add reverse edges for single edges
-
         }
 
         //delete node if Q key is pressed
@@ -45,6 +43,23 @@ public class KeyboardListener implements KeyListener {
 
             //fill all edges
 
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+
+            panel.lastGraph = new Graph(panel.getGraph());
+            panel.disableInput = true;
+
+            new Thread(() -> {
+                new DFS(this.panel.getGraph(), this.panel);
+            }).start();
+
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_Z) {
+            if (panel.disableInput)
+                return;
+            panel.resetGraph();
         }
 
         panel.setFocusable(true);

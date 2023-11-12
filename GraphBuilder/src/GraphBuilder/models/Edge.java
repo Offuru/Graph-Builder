@@ -29,6 +29,10 @@ public class Edge {
         return end;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     public void select() {
         color = selectedColor;
     }
@@ -54,7 +58,7 @@ public class Edge {
 
         Color initColor = g2d.getColor();
         g2d.setColor(color);
-        g2d.fillPolygon(new int[]{5, 0, -5}, new int[]{-2 * Node.radius - 7, -7, -2 * Node.radius - 7}, 3);
+        g2d.fillPolygon(new int[]{10, 0, -10}, new int[]{-2 * Node.radius - 7, -13, -2 * Node.radius - 7}, 3);
         g2d.setColor(initColor);
 
         g2d.setTransform(initAt);
@@ -69,5 +73,9 @@ public class Edge {
 
         if (directed)
             drawArrow(g2d);
+    }
+
+    boolean isSelected() {
+        return color == selectedColor;
     }
 }
