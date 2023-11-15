@@ -52,6 +52,10 @@ public class Panel extends JPanel {
 
     public void resetGraph() {
         graph = new Graph(lastGraph);
+        for(Node node: graph.getNodes())
+            node.unselect();
+        for(Edge edge : graph.getEdgeList())
+            edge.unselect();
         repaint();
     }
 

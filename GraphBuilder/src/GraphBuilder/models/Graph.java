@@ -122,13 +122,15 @@ public class Graph {
 
         edgeList.removeIf(edge -> (edge.getStart() == node || edge.getEnd() == node));
 
-        nodes.remove(node);
-        for (int i = node.getKey(); i < nodes.size(); ++i)
-            nodes.get(i).setKey(nodes.get(i).getKey() - 1);
-
         adjacencyMatrix.remove(node.getKey());
         for (List<Integer> row : adjacencyMatrix)
             row.remove(node.getKey());
+
+        nodes.remove(node);
+        for (int i = node.getKey(); i < nodes.size(); ++i)
+            if (nodes.get(i).getKey() != i)
+                nodes.get(i).setKey(nodes.get(i).getKey() - 1);
+
 
         printGraph();
     }

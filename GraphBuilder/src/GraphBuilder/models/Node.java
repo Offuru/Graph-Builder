@@ -90,6 +90,14 @@ public class Node {
             g.drawString(((Integer) key).toString(), x - 7, y + 5);
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
     boolean isSelected(){
         return color == selectedColor;
     }

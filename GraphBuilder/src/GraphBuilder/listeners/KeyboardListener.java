@@ -39,12 +39,6 @@ public class KeyboardListener implements KeyListener {
             panel.mouseListener.start = null;
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_C) {
-
-            //fill all edges
-
-        }
-
         if (e.getKeyCode() == KeyEvent.VK_D) {
 
             panel.lastGraph = new Graph(panel.getGraph());
@@ -56,8 +50,31 @@ public class KeyboardListener implements KeyListener {
 
         }
 
+        if (e.getKeyCode() == KeyEvent.VK_C) {
+
+            panel.lastGraph = new Graph(panel.getGraph());
+            panel.disableInput = true;
+
+            new Thread(() -> {
+                new ConnectedComponents(this.panel);
+            }).start();
+
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_T) {
+
+            panel.lastGraph = new Graph(panel.getGraph());
+            panel.disableInput = true;
+
+            new Thread(() -> {
+                new TopologicalSort(this.panel);
+            }).start();
+
+        }
+
+
         if (e.getKeyCode() == KeyEvent.VK_Z) {
-            if (panel.disableInput)
+            if (panel.disableInput || panel.lastGraph == null)
                 return;
             panel.resetGraph();
         }
