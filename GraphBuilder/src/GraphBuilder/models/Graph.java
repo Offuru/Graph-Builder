@@ -8,12 +8,12 @@ import GraphBuilder.Panel;
 
 public class Graph {
 
-    private volatile List<Node> nodes;
-    private volatile List<List<Node>> adjancencyList;
+    private  List<Node> nodes;
+    private  List<List<Node>> adjancencyList;
     private boolean directed;
-    private volatile List<Edge> edgeList;
+    private  List<Edge> edgeList;
 
-    private volatile List<List<Integer>> adjacencyMatrix;
+    private  List<List<Integer>> adjacencyMatrix;
 
     public Graph() {
 
@@ -31,6 +31,7 @@ public class Graph {
         edgeList = new ArrayList<>(graph.edgeList);
         adjacencyMatrix = new ArrayList<>(graph.adjacencyMatrix);
         directed = graph.directed;
+
     }
 
     public List<Node> getNodes() {

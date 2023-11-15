@@ -14,8 +14,8 @@ import GraphBuilder.models.Edge;
 
 public class Panel extends JPanel {
 
-    private volatile Graph graph;
-    public volatile Graph lastGraph;
+    private Graph graph;
+    public Graph lastGraph;
     public volatile boolean disableInput;
 
     public MouseListener mouseListener;

@@ -42,7 +42,7 @@ public class TopologicalSort {
 
                 Pair current = dfsStack.pop();
 
-                if(from.get(current.node.getKey())!=null){
+                if (from.get(current.node.getKey()) != null) {
 
                     panel.getGraph().selectEdge(from.get(current.node.getKey()), current.node);
                     panel.repaint();
@@ -89,11 +89,27 @@ public class TopologicalSort {
             }
         }
 
-        for(Node node : panel.getGraph().getNodes())
+        for (Node node : panel.getGraph().getNodes())
             node.unselect();
 
-        while (!sorted.empty())
-            System.out.print(sorted.pop().getKey() + " ");
+
+        int x = 50;
+        int y = 400;
+
+        while (!sorted.empty()) {
+
+            sorted.pop().setPosition(x, y);
+
+            x += Node.radius * 2 + 15;
+            if (x > 750) {
+                x = 50;
+                y += Node.radius * 2 + 15;
+            }
+        }
+
+        panel.getGraph().getEdgeList().clear();
+
+        panel.repaint();
 
         panel.disableInput = false;
     }

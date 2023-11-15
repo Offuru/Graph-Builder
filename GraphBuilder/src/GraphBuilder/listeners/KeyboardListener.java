@@ -72,8 +72,8 @@ public class KeyboardListener implements KeyListener {
 
         }
 
-
         if (e.getKeyCode() == KeyEvent.VK_Z) {
+
             if (panel.disableInput || panel.lastGraph == null)
                 return;
             panel.resetGraph();
