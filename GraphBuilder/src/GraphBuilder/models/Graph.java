@@ -1,19 +1,19 @@
 package GraphBuilder.models;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import java.awt.*;
+import java.util.List;
 
 import GraphBuilder.Panel;
 
 public class Graph {
 
-    private  List<Node> nodes;
-    private  List<List<Node>> adjancencyList;
+    private List<Node> nodes;
+    private List<List<Node>> adjancencyList;
     private boolean directed;
-    private  List<Edge> edgeList;
+    private List<Edge> edgeList;
 
-    private  List<List<Integer>> adjacencyMatrix;
+    private List<List<Integer>> adjacencyMatrix;
 
     public Graph() {
 
@@ -227,6 +227,49 @@ public class Graph {
                 return;
             }
 
+    }
+
+    public boolean isAcyclic() {
+
+        Queue<Node> frontier = new LinkedList<>();
+        List<Integer> visited = new ArrayList<>(Collections.nCopies(nodes.size(), 0));
+        List<Node> from = new ArrayList<>(Collections.nCopies(nodes.size(), null));
+
+        for (Node node : nodes)
+            if (visited.get(node.getKey()) == 0) {
+
+                frontier.add(node);
+                visited.set(node.getKey(), 1);
+
+                while (!frontier.isEmpty()) {
+
+                    Node current = frontier.poll();
+
+                    for (Node next : adjancencyList.get(current.getKey())) {
+                        if (directed) {
+
+                            visited.set(next.getKey(), visited.get(next.getKey()) + 1);
+                            if (visited.get(next.getKey()) > nodes.size() - 1)
+                                return false;
+
+                        } else {
+
+                            if (visited.get(next.getKey()) == 1 && (from.get(current.getKey()) == next || from.get(next.getKey()) == null))
+                                continue;
+                            if (visited.get(next.getKey()) == 1)
+                                return false;
+
+                            from.set(next.getKey(), current);
+                            visited.set(next.getKey(), 1);
+                        }
+
+                        frontier.add(next);
+                    }
+                }
+
+            }
+
+        return true;
     }
 
 

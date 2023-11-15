@@ -3,13 +3,16 @@ package GraphBuilder.listeners;
 import GraphBuilder.Panel;
 import GraphBuilder.algorithms.*;
 import GraphBuilder.models.Graph;
+import GraphBuilder.models.Node;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.PreparedStatement;
 
 public class KeyboardListener implements KeyListener {
 
-    Panel panel;
+    volatile Panel panel;
 
     public KeyboardListener(Panel panel) {
         this.panel = panel;
@@ -66,6 +69,24 @@ public class KeyboardListener implements KeyListener {
             panel.lastGraph = new Graph(panel.getGraph());
             panel.disableInput = true;
 
+            if (!panel.getGraph().isDirected() || !panel.getGraph().isAcyclic()) {
+
+                new Thread(() -> {
+                    printMessage("Graph isn't directed or acyclic");
+
+                    try {
+                        java.util.concurrent.TimeUnit.MILLISECONDS.sleep(1000);
+                    } catch (java.lang.InterruptedException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+
+                    panel.disableInput = false;
+                    panel.repaint();
+                }).start();
+
+                return;
+            }
+
             new Thread(() -> {
                 new TopologicalSort(this.panel);
             }).start();
@@ -82,10 +103,20 @@ public class KeyboardListener implements KeyListener {
         panel.setFocusable(true);
         panel.requestFocusInWindow();
         panel.repaint();
+
     }
 
     public void keyReleased(KeyEvent e) {
 
     }
+
+    private void printMessage(String message) {
+
+        panel.getGraphics().setFont(Node.font.deriveFont(Node.font.getSize() * 2.f));
+        panel.getGraphics().drawString(message,
+                450 - message.length() / 2 * panel.getGraphics().getFont().getSize(),
+                350);
+    }
 }
+
 
